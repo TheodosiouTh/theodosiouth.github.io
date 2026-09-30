@@ -1,0 +1,46 @@
+---
+import PostList from '../components/PostList.astro';
+import { LINKS, SECTIONS } from '../consts';
+import Base from '../layouts/Base.astro';
+import { getActiveSections, getPosts } from '../lib/posts';
+
+const posts = (await getPosts()).filter((p) => SECTIONS[p.data.section].tech);
+const other = (await getActiveSections()).filter((s) => !SECTIONS[s].tech);
+---
+
+<Base>
+	<section class="bio" aria-label="Biography">
+		<p>
+			I'm a Principal Product Engineer at <a href="https://www.cogent.co.jp/">Cogent Labs</a> in Tokyo, working on an AI
+			document-processing platform used by 40+ enterprise organizations in Japan. I work across the stack in TypeScript,
+			Go and Python.
+		</p>
+		<p>
+			On the side I'm building <a href="https://github.com/TheodosiouTh/kotsu.nvim">kotsu.nvim</a>, a Neovim plugin that
+			tells you the fastest keys for what you want to do. Find me on {
+				LINKS.linkedin && (
+					<>
+						<a href={LINKS.linkedin}>LinkedIn</a> and{' '}
+					</>
+				)
+			}<a href={LINKS.github}>GitHub</a>, or <a href={`mailto:${LINKS.email}`}>send me an email</a>.
+		</p>
+	</section>
+
+	<PostList posts={posts} showSection empty="First posts coming soon." />
+
+	{
+		other.length > 0 && (
+			<p class="muted also">
+				I also write{' '}
+				{other.map((s, i) => (
+					<>
+						{i > 0 && (i === other.length - 1 ? ' and ' : ', ')}
+						<a href={`/${s}/`}>{SECTIONS[s].label.toLowerCase()}</a>
+					</>
+				))}
+				.
+			</p>
+		)
+	}
+</Base>

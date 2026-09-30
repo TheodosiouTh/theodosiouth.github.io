@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PostList from '../../components/PostList.astro';
+import { SECTIONS } from '../../consts';
+import Base from '../../layouts/Base.astro';
+import { getActiveSections, getPosts } from '../../lib/posts';
+
+// Only sections with posts get a page/feed.
+export const getStaticPaths = (async () =>
+	(await getActiveSections()).map((section) => ({ params: { section } }))) satisfies GetStaticPaths;
+
+const { section } = Astro.params;
+const { label, description } = SECTIONS[section];
+const posts = await getPosts(section);
+const sections = await getActiveSections();
+---
+
+<Base title={label} description={description}>
+	<h1>{label}</h1>
+	<p class="muted">
+		{description} <a href={`/${section}/rss.xml`}>RSS</a>
+	</p>
+	{
+		sections.length > 1 && (
+			<nav class="section-tabs" aria-label="Sections">
+				{sections.map((s) => (
+					<a href={`/${s}/`} aria-current={s === section ? 'page' : undefined}>
+						{SECTIONS[s].label}
+					</a>
+				))}
+			</nav>
+		)
+	}
+	<PostList posts={posts} />
+</Base>

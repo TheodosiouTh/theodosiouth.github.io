@@ -1,0 +1,35 @@
+---
+import { SECTIONS } from '../consts';
+import { formatDate, postPath, type Post } from '../lib/posts';
+
+interface Props {
+	posts: Post[];
+	/** Show which section each post belongs to (for mixed lists). */
+	showSection?: boolean;
+	empty?: string;
+}
+
+const { posts, showSection = false, empty = 'Nothing here yet.' } = Astro.props;
+---
+
+{
+	posts.length === 0 ? (
+		<p class="muted">{empty}</p>
+	) : (
+		<div class="post-list">
+			{posts.map((p) => (
+				<article>
+					<h2>
+						<a href={postPath(p)}>{p.data.title}</a>
+					</h2>
+					<p class="meta">
+						<time datetime={p.data.pubDate.toISOString()}>{formatDate(p.data.pubDate)}</time>
+						{showSection && p.data.section !== 'writing' && <> · {SECTIONS[p.data.section].label}</>}
+						{p.data.draft && <span class="badge">draft</span>}
+					</p>
+					<p>{p.data.description}</p>
+				</article>
+			))}
+		</div>
+	)
+}

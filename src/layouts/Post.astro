@@ -12,6 +12,23 @@ const { data } = post;
 const section = SECTIONS[data.section];
 const canonical = 'canonical' in data ? data.canonical : undefined;
 const devto = 'crosspost' in data ? data.crosspost?.devto : undefined;
+const image = `/og/${data.section}/${post.id}.png`;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+
+const schema = {
+	'@type': 'BlogPosting',
+	headline: data.title,
+	description: data.description,
+	url,
+	mainEntityOfPage: canonical ?? url,
+	image: new URL(image, Astro.site).href,
+	datePublished: data.pubDate.toISOString(),
+	dateModified: (data.updatedDate ?? data.pubDate).toISOString(),
+	keywords: data.tags.length ? data.tags.join(', ') : undefined,
+	articleSection: section.label,
+	inLanguage: 'en',
+	author: { '@type': 'Person', '@id': new URL('/#person', Astro.site).href, name: SITE.name, url: Astro.site?.href },
+};
 ---
 
 <Base
@@ -22,6 +39,8 @@ const devto = 'crosspost' in data ? data.crosspost?.devto : undefined;
 	publishedTime={data.pubDate}
 	modifiedTime={data.updatedDate}
 	noindex={data.draft}
+	image={image}
+	schema={schema}
 >
 	<article class="post">
 		<header>

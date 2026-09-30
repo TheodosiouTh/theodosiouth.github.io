@@ -1,14 +1,38 @@
 ---
 import PostList from '../components/PostList.astro';
-import { LINKS, SECTIONS } from '../consts';
+import { LINKS, SECTIONS, SITE } from '../consts';
 import Base from '../layouts/Base.astro';
 import { getActiveSections, getPosts } from '../lib/posts';
 
 const posts = (await getPosts()).filter((p) => SECTIONS[p.data.section].tech);
 const other = (await getActiveSections()).filter((s) => !SECTIONS[s].tech);
+
+const schema = {
+	'@graph': [
+		{
+			'@type': 'Person',
+			'@id': new URL('/#person', Astro.site).href,
+			name: SITE.name,
+			jobTitle: SITE.title,
+			url: Astro.site?.href,
+			email: `mailto:${LINKS.email}`,
+			worksFor: { '@type': 'Organization', name: 'Cogent Labs', url: 'https://www.cogent.co.jp/' },
+			homeLocation: { '@type': 'Place', name: 'Tokyo, Japan' },
+			knowsLanguage: ['el', 'en', 'ja'],
+			sameAs: [LINKS.linkedin, LINKS.github].filter(Boolean),
+		},
+		{
+			'@type': 'WebSite',
+			'@id': new URL('/#website', Astro.site).href,
+			url: Astro.site?.href,
+			name: SITE.name,
+			author: { '@id': new URL('/#person', Astro.site).href },
+		},
+	],
+};
 ---
 
-<Base>
+<Base schema={schema}>
 	<section class="bio" aria-label="Biography">
 		<p>
 			I'm a Principal Product Engineer at <a href="https://www.cogent.co.jp/">Cogent Labs</a> in Tokyo, working on an AI

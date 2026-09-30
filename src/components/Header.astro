@@ -1,7 +1,5 @@
 ---
 import { SITE } from '../consts';
-
-const path = Astro.url.pathname;
 ---
 
 <header class="site-header">
@@ -24,7 +22,6 @@ const path = Astro.url.pathname;
 					stroke-linejoin="round"></path></svg
 			>
 		</button>
-		<a href="/about/" aria-current={path.startsWith('/about/') ? 'page' : undefined}>About</a>
 	</nav>
 </header>
 

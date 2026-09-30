@@ -16,17 +16,20 @@ const { posts, showSection = false, empty = 'Nothing here yet.' } = Astro.props;
 	posts.length === 0 ? (
 		<p class="muted">{empty}</p>
 	) : (
-		<ul class="post-list">
+		<div class="post-list">
 			{posts.map((p) => (
-				<li>
-					<a href={postPath(p)}>{p.data.title}</a>
-					{p.data.draft && <span class="badge">draft</span>}
-					<span class="muted meta">
+				<article>
+					<h2>
+						<a href={postPath(p)}>{p.data.title}</a>
+					</h2>
+					<p class="meta">
 						<time datetime={p.data.pubDate.toISOString()}>{formatDate(p.data.pubDate)}</time>
-						{showSection && <> · {SECTIONS[p.data.section].label}</>}
-					</span>
-				</li>
+						{showSection && p.data.section !== 'writing' && <> · {SECTIONS[p.data.section].label}</>}
+						{p.data.draft && <span class="badge">draft</span>}
+					</p>
+					<p>{p.data.description}</p>
+				</article>
 			))}
-		</ul>
+		</div>
 	)
 }

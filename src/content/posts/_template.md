@@ -1,5 +1,5 @@
 ---
-# Copy this file to start a post. Files starting with "_" are still loaded, so keep draft: true here.
+# Copy this file (without the leading "_") to start a post. Files starting with "_" are ignored.
 title: Post template
 description: One or two sentences used for SEO, link previews and RSS.
 slug: post-template

@@ -1,9 +1,11 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { SECTIONS, SECTION_KEYS, type Section } from '../../consts';
+import { SECTIONS, type Section } from '../../consts';
 import { feed } from '../../lib/feed';
-import { getPosts } from '../../lib/posts';
+import { getActiveSections, getPosts } from '../../lib/posts';
 
-export const getStaticPaths = (() => SECTION_KEYS.map((section) => ({ params: { section } }))) satisfies GetStaticPaths;
+// Only sections with posts get a page/feed.
+export const getStaticPaths = (async () =>
+	(await getActiveSections()).map((section) => ({ params: { section } }))) satisfies GetStaticPaths;
 
 export const GET: APIRoute = async ({ site, params }) => {
 	const section = params.section as Section;

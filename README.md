@@ -7,14 +7,14 @@ The previous React site lives on the `legacy` branch.
 ## Develop
 
 ```sh
-npm install
-npm run dev      # http://localhost:4321, drafts visible
-npm run build    # type-check + static build into dist/
+yarn install
+yarn dev         # http://localhost:4321, drafts visible
+yarn build     # type-check + static build into dist/
 ```
 
 ## Writing posts
 
-Posts live in `src/content/posts/`, one Markdown/MDX file each. Copy `_template.md` to start. The file name doesn't matter; the URL is `/<section>/<slug>/`.
+Posts live in `src/content/posts/`, one Markdown/MDX file each. Copy `_template.md` (files starting with `_` are ignored) to start. `draft: true` posts show only in `yarn dev`. The file name doesn't matter; the URL is `/<section>/<slug>/`.
 
 | Section   | URL          | Feed                 | dev.to fields |
 | --------- | ------------ | -------------------- | ------------- |
@@ -23,7 +23,7 @@ Posts live in `src/content/posts/`, one Markdown/MDX file each. Copy `_template.
 | `life`    | `/life/`     | `/life/rss.xml`      | no            |
 | `stories` | `/stories/`  | `/stories/rss.xml`   | no            |
 
-`/rss.xml` has everything. Frontmatter is validated in `src/content.config.ts`; `crosspost`/`canonical` on a life or stories post fails the build.
+A section only gets its page and feed once it has a published post. A section only gets its page and feed once it has a published post. `/rss.xml` has everything. Frontmatter is validated in `src/content.config.ts`; `crosspost`/`canonical` on a life or stories post fails the build.
 
 Cross-posting (POSSE): publish here, then post to dev.to with `canonical_url` set to this post's URL, then add `crosspost.devto` to the frontmatter.
 

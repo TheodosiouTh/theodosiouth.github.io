@@ -1,5 +1,5 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
-import type { Section } from '../consts';
+import { SECTION_KEYS, type Section } from '../consts';
 
 export type Post = CollectionEntry<'posts'>;
 
@@ -15,4 +15,10 @@ export async function getPosts(section?: Section): Promise<Post[]> {
 export const postPath = (p: Post) => `/${p.data.section}/${p.id}/`;
 
 export const formatDate = (d: Date) =>
-	d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+	d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+
+/** Sections that have at least one visible post, in SECTIONS order. Empty sections get no pages or feeds. */
+export async function getActiveSections(): Promise<Section[]> {
+	const posts = await getPosts();
+	return SECTION_KEYS.filter((s) => posts.some((p) => p.data.section === s));
+}

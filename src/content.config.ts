@@ -28,7 +28,8 @@ const tech = base.extend({
 const posts = defineCollection({
 	loader: glob({
 		base: './src/content/posts',
-		pattern: '**/*.{md,mdx}',
+		// Files starting with "_" (like _template.md) are ignored.
+		pattern: '**/[^_]*.{md,mdx}',
 		generateId: ({ entry, data }) => (typeof data.slug === 'string' ? data.slug : entry),
 	}),
 	schema: z.discriminatedUnion('section', [

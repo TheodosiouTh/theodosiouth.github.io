@@ -1,0 +1,91 @@
+---
+import { LINKS } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const work = [
+	{
+		title: 'Replacing the ML orchestration layer with zero downtime',
+		body: 'Led the move from legacy model-serving "coordinators" to a new orchestration architecture while customers kept processing documents. Removed 10+ services.',
+	},
+	{
+		title: 'From hackathon prototype to shipped product',
+		body: "Took Cabinet, a RAG prototype over OCR'd documents, from a hackathon to a shipped product.",
+	},
+	{
+		title: 'A feature that unlocked a ¥150M deal',
+		body: "Shipped the capability a large enterprise deal depended on. Also cut the verification screen's first load by up to 70%.",
+	},
+	{
+		title: 'Changing the foundations while shipping',
+		body: 'Datastore → Postgres and GCP → AWS alongside feature work. Maintained the air-gapped on-prem deployment (k3s, containerd) and made its images 60% smaller.',
+	},
+];
+
+const roles = [
+	{ title: 'Principal Product Engineer', org: 'Cogent Labs', dates: '2026 –' },
+	{ title: 'Senior Software Engineer', org: 'Cogent Labs', dates: '2024 – 2026' },
+	{ title: 'Backend Engineer', org: 'Cogent Labs', dates: '2022 – 2024' },
+	{ title: 'Backend Engineer → Technical PM', org: 'Desquared, Athens', dates: '2020 – 2022' },
+];
+---
+
+<Base
+	title="About"
+	description="Thanos Theodosiou, Principal Product Engineer at Cogent Labs in Tokyo: selected work, projects and experience."
+>
+	<section class="bio">
+		<p>
+			I'm a Principal Product Engineer at <a href="https://www.cogent.co.jp/">Cogent Labs</a> in Tokyo, working on an AI
+			document-processing platform used by 40+ enterprise organizations in Japan.
+		</p>
+		<p>I'm from Greece and moved to Japan in 2022. I work across the stack in TypeScript, Go and Python.</p>
+		<p class="links">
+			<a href={`mailto:${LINKS.email}`}>Email</a>
+			<a href={LINKS.github}>GitHub</a>
+			{LINKS.linkedin && <a href={LINKS.linkedin}>LinkedIn</a>}
+		</p>
+	</section>
+
+	<h2>Selected work</h2>
+	<div class="stories">
+		{
+			work.map((w) => (
+				<div>
+					<h3>{w.title}</h3>
+					<p>{w.body}</p>
+				</div>
+			))
+		}
+	</div>
+
+	<h2>Projects</h2>
+	<div class="stories">
+		<p>
+			<a href="https://github.com/TheodosiouTh/kotsu.nvim"><strong>kotsu.nvim</strong></a>. Neovim plugin: run <code
+				>:Kotsu</code
+			>, ask how to do something, get the fastest key sequence from your own keymaps.
+		</p>
+		<p>
+			<a href="https://github.com/docker/compose/pull/9507"><strong>docker/compose</strong></a> and <a
+				href="https://github.com/mui/material-ui/pull/30098"><strong>mui/material-ui</strong></a
+			>. Open-source contributions.
+		</p>
+	</div>
+
+	<h2>Experience</h2>
+	<ul class="roles">
+		{
+			roles.map((r) => (
+				<li>
+					<span>
+						<strong>{r.title}</strong>, {r.org}
+					</span>
+					<span class="muted">{r.dates}</span>
+				</li>
+			))
+		}
+	</ul>
+	<p class="muted small">
+		B.Sc. Computer Science, University of Piraeus. Greek (native), English (full professional), Japanese (JLPT N3).
+	</p>
+</Base>

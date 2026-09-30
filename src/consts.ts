@@ -15,7 +15,6 @@ export const LINKS = {
 	github: 'https://github.com/TheodosiouTh',
 	// TODO: fill in; the link is hidden while empty.
 	linkedin: '',
-	cv: '/cv.pdf',
 };
 
 // Blog sections. Order here drives nav and listing order.

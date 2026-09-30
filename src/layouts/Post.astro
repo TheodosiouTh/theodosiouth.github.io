@@ -1,5 +1,5 @@
 ---
-import { LINKS, SECTIONS } from '../consts';
+import { SECTIONS, SITE } from '../consts';
 import { formatDate, type Post } from '../lib/posts';
 import Base from './Base.astro';
 
@@ -25,13 +25,11 @@ const devto = 'crosspost' in data ? data.crosspost?.devto : undefined;
 >
 	<article class="post">
 		<header>
-			<p class="muted small">
-				<a href={`/${data.section}/`}>{section.label}</a>
-				{'series' in data && data.series && <> · {data.series}</>}
-			</p>
 			<h1>{data.title}</h1>
-			<p class="muted small">
+			<p class="meta">
 				<time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+				{data.section !== 'writing' && <> · <a href={`/${data.section}/`}>{section.label}</a></>}
+				{'series' in data && data.series && <> · {data.series}</>}
 				{
 					data.updatedDate && (
 						<>
@@ -46,21 +44,28 @@ const devto = 'crosspost' in data ? data.crosspost?.devto : undefined;
 		<div class="prose">
 			<slot />
 		</div>
-		<footer class="post-footer muted small">
-			{canonical && (
-				<p>
-					Originally published at <a href={canonical}>{new URL(canonical).hostname}</a>.
-				</p>
-			)}
-			{devto && (
-				<p>
-					Also on <a href={devto}>dev.to</a>, if you want to comment there.
-				</p>
-			)}
+		<footer class="post-footer">
 			<p>
-				Subscribe to <a href={`/${data.section}/rss.xml`}>{section.label} via RSS</a> or write to me at{' '}
-				<a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>.
+				{
+					canonical && (
+						<>
+							Originally published at <a href={canonical}>{new URL(canonical).hostname}</a>.{' '}
+						</>
+					)
+				}
+				{
+					devto && (
+						<>
+							Also on <a href={devto}>dev.to</a> if you want to comment there. ·{' '}
+						</>
+					)
+				}
+				<a href={`/${data.section}/rss.xml`}>RSS</a>
 			</p>
+			<a class="author" href="/about/">
+				<strong>{SITE.name}</strong>
+				<span>{SITE.title} in Tokyo. More about me →</span>
+			</a>
 		</footer>
 	</article>
 </Base>

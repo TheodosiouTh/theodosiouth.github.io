@@ -1,16 +1,10 @@
 ---
-import { LINKS, SECTIONS, SECTION_KEYS, SITE } from '../consts';
+import { LINKS } from '../consts';
 ---
 
 <footer class="site-footer">
-	<nav aria-label="Sections">
-		{SECTION_KEYS.map((s) => <a href={`/${s}/`}>{SECTIONS[s].label}</a>)}
-		<a href="/rss.xml">RSS</a>
-	</nav>
-	<nav aria-label="Contact">
-		<a href={`mailto:${LINKS.email}`}>Email</a>
-		{LINKS.linkedin && <a href={LINKS.linkedin}>LinkedIn</a>}
-		<a href={LINKS.github}>GitHub</a>
-	</nav>
-	<p>© {new Date().getFullYear()} {SITE.name}</p>
+	<a href={`mailto:${LINKS.email}`}>Email</a>
+	<a href={LINKS.github}>GitHub</a>
+	{LINKS.linkedin && <a href={LINKS.linkedin}>LinkedIn</a>}
+	<a href="/rss.xml">RSS</a>
 </footer>

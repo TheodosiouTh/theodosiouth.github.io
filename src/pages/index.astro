@@ -1,65 +1,46 @@
 ---
-import { Image } from 'astro:assets';
 import PostList from '../components/PostList.astro';
-import { LINKS, SITE } from '../consts';
+import { LINKS, SECTIONS } from '../consts';
 import Base from '../layouts/Base.astro';
-import { getPosts } from '../lib/posts';
-import me from '../assets/me.jpg';
+import { getActiveSections, getPosts } from '../lib/posts';
 
-const tech = (await getPosts()).filter((p) => p.data.section === 'writing' || p.data.section === 'devlogs').slice(0, 5);
+const posts = (await getPosts()).filter((p) => SECTIONS[p.data.section].tech);
+const other = (await getActiveSections()).filter((s) => !SECTIONS[s].tech);
 ---
 
 <Base>
-	<section class="intro">
-		<Image src={me} alt="Thanos Theodosiou" width={96} height={96} class="avatar" loading="eager" />
-		<div>
-			<h1>{SITE.name}</h1>
-			<p class="lede">
-				Principal Product Engineer at Cogent Labs in Tokyo, building an AI document-processing platform used by 40+
-				enterprise organizations in Japan.
-			</p>
-			<p class="lede">
-				Product-minded full-stack engineer working in TypeScript, Go and Python, from product decisions and UI down to
-				on-prem Kubernetes.
-			</p>
-			<p class="links">
-				<a href={`mailto:${LINKS.email}`}>Email</a>
-				{LINKS.linkedin && <a href={LINKS.linkedin}>LinkedIn</a>}
-				<a href={LINKS.github}>GitHub</a>
-				<a href={LINKS.cv}>CV (PDF)</a>
-			</p>
-		</div>
-	</section>
-
-	<section>
-		<h2><a href="/writing/">Writing</a></h2>
-		<PostList posts={tech} showSection empty="First posts coming soon." />
-	</section>
-
-	<section>
-		<h2><a href="/projects/">Projects</a></h2>
-		<ul class="cards">
-			<li>
-				<a href="https://github.com/TheodosiouTh/kotsu.nvim"><strong>kotsu.nvim</strong></a>
-				<p>
-					A Neovim plugin: run <code>:Kotsu</code>, ask how to do something, and get the fastest key sequence, grounded
-					in your own keymaps.
-				</p>
-			</li>
-		</ul>
-	</section>
-
-	<section>
-		<h2><a href="/work/">Work</a></h2>
+	<section class="bio" aria-label="Biography">
 		<p>
-			Short stories about projects that mattered: a zero-downtime replacement of our ML orchestration layer, turning a
-			hackathon prototype into a product, and moving clouds and databases while still shipping. <a href="/work/"
-				>Read more</a
-			>.
+			I'm a Principal Product Engineer at <a href="https://www.cogent.co.jp/">Cogent Labs</a> in Tokyo, working on an AI
+			document-processing platform used by 40+ enterprise organizations in Japan. I work across the stack in TypeScript,
+			Go and Python.
+		</p>
+		<p>
+			On the side I'm building <a href="https://github.com/TheodosiouTh/kotsu.nvim">kotsu.nvim</a>, a Neovim plugin that
+			tells you the fastest keys for what you want to do. Find me on {
+				LINKS.linkedin && (
+					<>
+						<a href={LINKS.linkedin}>LinkedIn</a> and{' '}
+					</>
+				)
+			}<a href={LINKS.github}>GitHub</a>, or <a href={`mailto:${LINKS.email}`}>send me an email</a>.
 		</p>
 	</section>
 
-	<p class="muted small">
-		I also write about <a href="/life/">life</a> and the occasional <a href="/stories/">short story</a>.
-	</p>
+	<PostList posts={posts} showSection empty="First posts coming soon." />
+
+	{
+		other.length > 0 && (
+			<p class="muted also">
+				I also write{' '}
+				{other.map((s, i) => (
+					<>
+						{i > 0 && (i === other.length - 1 ? ' and ' : ', ')}
+						<a href={`/${s}/`}>{SECTIONS[s].label.toLowerCase()}</a>
+					</>
+				))}
+				.
+			</p>
+		)
+	}
 </Base>

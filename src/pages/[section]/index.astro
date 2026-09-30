@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PostList from '../../components/PostList.astro';
+import { SECTIONS, SECTION_KEYS } from '../../consts';
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/posts';
+
+export const getStaticPaths = (() => SECTION_KEYS.map((section) => ({ params: { section } }))) satisfies GetStaticPaths;
+
+const { section } = Astro.params;
+const { label, description } = SECTIONS[section];
+const posts = await getPosts(section);
+---
+
+<Base title={label} description={description}>
+	<h1>{label}</h1>
+	<p class="muted">
+		{description} <a href={`/${section}/rss.xml`}>RSS</a>
+	</p>
+	<nav class="section-tabs" aria-label="Sections">
+		{
+			SECTION_KEYS.map((s) => (
+				<a href={`/${s}/`} aria-current={s === section ? 'page' : undefined}>
+					{SECTIONS[s].label}
+				</a>
+			))
+		}
+	</nav>
+	<PostList posts={posts} />
+</Base>

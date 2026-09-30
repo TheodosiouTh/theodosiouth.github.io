@@ -1,0 +1,87 @@
+---
+import { LINKS } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const roles = [
+	{ title: 'Principal Product Engineer', org: 'Cogent Labs, Tokyo', dates: 'May 2026 – present' },
+	{ title: 'Senior Software Engineer', org: 'Cogent Labs, Tokyo', dates: 'May 2024 – May 2026' },
+	{ title: 'Backend Engineer', org: 'Cogent Labs, Tokyo', dates: 'Sep 2022 – May 2024' },
+	{ title: 'Technical Project Manager, Backend Engineer', org: 'Desquared, Athens', dates: '2020 – 2022' },
+];
+---
+
+<Base
+	title="Work"
+	description="Selected work by Thanos Theodosiou: product engineering on an AI document-processing platform at Cogent Labs in Tokyo."
+>
+	<h1>Work</h1>
+	<p class="lede">
+		Since 2022 I've worked at <a href="https://www.cogent.co.jp/">Cogent Labs</a> on SmartRead, an AI document-processing
+		(OCR) platform used by 40+ enterprise organizations in Japan, first as a backend engineer, then as tech lead, now as
+		Principal Product Engineer. A few stories from that time. The full history is in my <a href={LINKS.cv}>CV</a>.
+	</p>
+
+	<article class="story">
+		<h2>Replacing the ML orchestration layer with zero downtime</h2>
+		<p>
+			<strong>Why it mattered.</strong> Model serving ran on a set of legacy "coordinator" services that were hard to
+			change and expensive to operate, and every new model made it worse.
+		</p>
+		<p>
+			<strong>What changed.</strong> I led the migration to a new model-serving orchestration architecture while
+			customers kept processing documents. We cut over without downtime and removed more than ten services.
+		</p>
+	</article>
+
+	<article class="story">
+		<h2>From hackathon prototype to shipped product</h2>
+		<p>
+			<strong>Why it mattered.</strong> Customers had large archives of documents they had already OCR'd with us, but
+			no good way to ask questions of them.
+		</p>
+		<p>
+			<strong>What changed.</strong> A hackathon RAG prototype over OCR'd documents became Cabinet. I incubated it from
+			the prototype into a shipped product.
+		</p>
+	</article>
+
+	<article class="story">
+		<h2>A feature that unlocked a ¥150M deal</h2>
+		<p>
+			<strong>Why it mattered.</strong> A large enterprise deal depended on a capability the platform didn't have yet.
+		</p>
+		<p>
+			<strong>What changed.</strong> I shipped it, and the deal closed. Around the same time I built SmartRead+ and cut
+			the first load of the verification screen, where operators spend most of their day, by up to 70%.
+		</p>
+	</article>
+
+	<article class="story">
+		<h2>Changing the foundations while shipping</h2>
+		<p>
+			<strong>Why it mattered.</strong> The platform needed to move from Datastore to Postgres and from GCP to AWS, and
+			some customers run it on-prem in air-gapped environments, without the roadmap stopping.
+		</p>
+		<p>
+			<strong>What changed.</strong> Both migrations landed alongside feature work. I also maintained the on-prem Go
+			deployment on k3s and containerd, and made its images 60% smaller.
+		</p>
+	</article>
+
+	<h2>Roles</h2>
+	<ul class="roles">
+		{
+			roles.map((r) => (
+				<li>
+					<span>
+						<strong>{r.title}</strong>, {r.org}
+					</span>
+					<span class="muted">{r.dates}</span>
+				</li>
+			))
+		}
+	</ul>
+	<p class="muted small">
+		B.Sc. Computer Science, University of Piraeus. Greek (native), English (full professional), Japanese (JLPT N3).
+	</p>
+</Base>

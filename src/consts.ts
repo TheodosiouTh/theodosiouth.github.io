@@ -13,8 +13,7 @@ export const SITE = {
 export const LINKS = {
 	email: 'thanosthd@gmail.com',
 	github: 'https://github.com/TheodosiouTh',
-	// TODO: fill in; the link is hidden while empty.
-	linkedin: '',
+	linkedin: 'https://www.linkedin.com/in/thanos-theodosiou/',
 };
 
 // Blog sections. Order here drives nav and listing order.

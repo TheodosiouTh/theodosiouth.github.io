@@ -131,7 +131,6 @@ blockquote {
 	padding: 0.5rem;
 }
 
-/* Header */
 .site-header {
 	display: flex;
 	justify-content: space-between;
@@ -171,7 +170,6 @@ blockquote {
 	display: none;
 }
 
-/* Footer */
 .site-footer {
 	display: flex;
 	flex-wrap: wrap;
@@ -185,7 +183,6 @@ blockquote {
 	color: var(--muted);
 }
 
-/* Bio */
 .bio {
 	margin-bottom: 3.5rem;
 }
@@ -200,7 +197,6 @@ blockquote {
 	text-decoration-color: currentColor;
 }
 
-/* Post list */
 .post-list {
 	display: flex;
 	flex-direction: column;
@@ -254,7 +250,6 @@ blockquote {
 	font-weight: 600;
 }
 
-/* Post */
 .post header {
 	margin-bottom: 2.25rem;
 }

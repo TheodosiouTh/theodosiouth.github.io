@@ -3,7 +3,6 @@ import { SECTIONS, type Section } from '../../consts';
 import { feed } from '../../lib/feed';
 import { getActiveSections, getPosts } from '../../lib/posts';
 
-// Only sections with posts get a page/feed.
 export const getStaticPaths = (async () =>
 	(await getActiveSections()).map((section) => ({ params: { section } }))) satisfies GetStaticPaths;
 

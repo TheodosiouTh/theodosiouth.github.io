@@ -2,20 +2,36 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+const slugify = (s: string) =>
+	s
+		.normalize('NFKD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-|-$/g, '');
+
 const base = z.object({
 	title: z.string(),
-	description: z.string(),
+	description: z
+		.string()
+		.nullish()
+		.transform((s) => s || undefined),
 	// Stable URL slug, independent of the file name (Obsidian notes keep their titles as names).
-	slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug must be kebab-case'),
+	slug: z
+		.string()
+		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug must be kebab-case')
+		.nullish()
+		.transform((s) => s ?? undefined),
 	pubDate: z.coerce.date(),
 	updatedDate: z.coerce.date().optional(),
 	draft: z.boolean().default(false),
-	tags: z.array(z.string()).default([]),
+	tags: z
+		.array(z.string())
+		.nullish()
+		.transform((t) => t ?? []),
 });
 
-// Tech posts are cross-posted (POSSE): published here first, then syndicated with
-// the canonical URL pointing back here. `canonical` only overrides that for posts
-// that were originally published elsewhere.
+// `canonical` is only for posts first published elsewhere.
 const tech = base.extend({
 	canonical: z.url().optional(),
 	crosspost: z
@@ -28,20 +44,27 @@ const tech = base.extend({
 const posts = defineCollection({
 	loader: glob({
 		base: './src/content/posts',
-		// Files starting with "_" (like _template.md) are ignored.
-		pattern: '**/[^_]*.{md,mdx}',
-		generateId: ({ entry, data }) => (typeof data.slug === 'string' ? data.slug : entry),
+		// Files and folders starting with "_" (like _templates/) are ignored.
+		pattern: ['**/*.{md,mdx}', '!**/_*', '!**/_*/**'],
+		generateId: ({ entry, data }) =>
+			typeof data.slug === 'string' && data.slug ? data.slug : slugify(entry.replace(/\.mdx?$/, '').split('/').pop()!),
 	}),
-	schema: z.discriminatedUnion('section', [
-		tech.extend({ section: z.literal('writing') }),
-		tech.extend({
-			section: z.literal('devlogs'),
-			// Groups devlog entries into a series, e.g. "kotsu.nvim".
-			series: z.string().optional(),
+	schema: z
+		.discriminatedUnion('section', [
+			tech.extend({ section: z.literal('writing') }),
+			tech.extend({
+				section: z.literal('devlogs'),
+				series: z.string().optional(),
+			}),
+			base.extend({ section: z.literal('life') }).strict(),
+			base.extend({ section: z.literal('stories') }).strict(),
+		])
+		.superRefine((post, ctx) => {
+			if (post.draft) return;
+			for (const key of ['slug', 'description'] as const) {
+				if (!post[key]) ctx.addIssue({ code: 'custom', path: [key], message: `Set \`${key}\` before publishing (draft: false)` });
+			}
 		}),
-		base.extend({ section: z.literal('life') }).strict(),
-		base.extend({ section: z.literal('stories') }).strict(),
-	]),
 });
 
 export const collections = { posts };

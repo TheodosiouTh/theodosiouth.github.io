@@ -1,5 +1,3 @@
-// Single source of truth for site identity. Switching to a custom domain is a
-// change to SITE_URL here plus adding public/CNAME.
 export const SITE_URL = 'https://theodosiouth.github.io';
 
 export const SITE = {

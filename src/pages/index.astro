@@ -19,7 +19,7 @@ const schema = {
 			worksFor: { '@type': 'Organization', name: 'Cogent Labs', url: 'https://www.cogent.co.jp/' },
 			homeLocation: { '@type': 'Place', name: 'Tokyo, Japan' },
 			knowsLanguage: ['el', 'en', 'ja'],
-			sameAs: [LINKS.linkedin, LINKS.github].filter(Boolean),
+			sameAs: [LINKS.linkedin, LINKS.github, LINKS.instagram],
 		},
 		{
 			'@type': 'WebSite',
@@ -41,13 +41,9 @@ const schema = {
 		</p>
 		<p>
 			On the side I'm building <a href="https://github.com/TheodosiouTh/kotsu.nvim">kotsu.nvim</a>, a Neovim plugin that
-			tells you the fastest keys for what you want to do. Find me on {
-				LINKS.linkedin && (
-					<>
-						<a href={LINKS.linkedin}>LinkedIn</a> and{' '}
-					</>
-				)
-			}<a href={LINKS.github}>GitHub</a>, or <a href={`mailto:${LINKS.email}`}>send me an email</a>.
+			tells you the fastest keys for what you want to do. Find me on <a href={LINKS.linkedin}>LinkedIn</a>,{' '}
+			<a href={LINKS.github}>GitHub</a> and <a href={LINKS.instagram}>Instagram</a>, or{' '}
+			<a href={`mailto:${LINKS.email}`}>send me an email</a>.
 		</p>
 	</section>
 

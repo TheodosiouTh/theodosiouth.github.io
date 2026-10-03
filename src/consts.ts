@@ -12,6 +12,7 @@ export const LINKS = {
 	email: 'thanosthd@gmail.com',
 	github: 'https://github.com/TheodosiouTh',
 	linkedin: 'https://www.linkedin.com/in/thanos-theodosiou/',
+	instagram: 'https://www.instagram.com/thanoswasbusy/',
 };
 
 // Blog sections. Order here drives nav and listing order.

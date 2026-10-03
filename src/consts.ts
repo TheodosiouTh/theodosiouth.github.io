@@ -1,11 +1,11 @@
-export const SITE_URL = 'https://theodosiouth.github.io';
+export const SITE_URL = "https://theodosiouth.github.io";
 
 export const SITE = {
-	name: 'Thanos Theodosiou',
-	title: 'Principal Product Engineer',
+	name: "Thanos Theodosiou",
+	title: "Principal Product Engineer",
 	description:
-		'Thanos Theodosiou, Principal Product Engineer in Tokyo. Product-minded full-stack engineer working in TypeScript, Go and Python.',
-	locale: 'en_US',
+		"Thanos Theodosiou, Principal Product Engineer in Tokyo. Product-minded full-stack engineer working in TypeScript, Go and Python.",
+	locale: "en_US",
 };
 
 export const LINKS = {
@@ -18,23 +18,25 @@ export const LINKS = {
 // Blog sections. Order here drives nav and listing order.
 export const SECTIONS = {
 	writing: {
-		label: 'Writing',
-		description: 'Notes on building software products: architecture, migrations and shipping.',
+		label: "Writing",
+		description:
+			"Notes on building software products: architecture, migrations and shipping.",
 		tech: true,
 	},
 	devlogs: {
-		label: 'Devlogs',
-		description: 'Building side projects in public, one step at a time.',
+		label: "Devlogs",
+		description: "Building side projects in public, one step at a time.",
 		tech: true,
 	},
 	life: {
-		label: 'Life',
-		description: 'Personal essays on living in Japan, careers and everything else.',
+		label: "Life",
+		description:
+			"Personal essays on living in Japan, careers and everything else.",
 		tech: false,
 	},
 	stories: {
-		label: 'Stories',
-		description: 'Short fiction.',
+		label: "Stories",
+		description: "Short fiction.",
 		tech: false,
 	},
 } as const;

@@ -1,4 +1,4 @@
-# theodosiouth.github.io
+# thanoswasbusy.github.io
 
 Personal site and blog of Thanos Theodosiou. Built with [Astro](https://astro.build), deployed to GitHub Pages by `.github/workflows/deploy.yml` on push to `master`.
 

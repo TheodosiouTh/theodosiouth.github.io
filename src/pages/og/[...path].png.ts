@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { SECTIONS, SITE } from '../../consts';
+import { SECTIONS, SITE, SITE_URL } from '../../consts';
 import { renderOgImage, type OgImage } from '../../lib/og';
 import { formatDate, getPosts } from '../../lib/posts';
 
@@ -7,7 +7,7 @@ import { formatDate, getPosts } from '../../lib/posts';
 export const getStaticPaths = (async () => {
 	const posts = await getPosts();
 	const pages: { params: { path: string }; props: OgImage }[] = [
-		{ params: { path: 'index' }, props: { title: `${SITE.title} in Tokyo`, label: 'theodosiouth.github.io' } },
+		{ params: { path: 'index' }, props: { title: `${SITE.title} in Tokyo`, label: new URL(SITE_URL).host } },
 		...posts.map((p) => ({
 			params: { path: `${p.data.section}/${p.id}` },
 			props: { title: p.data.title, label: `${SECTIONS[p.data.section].label} · ${formatDate(p.data.pubDate)}` },
